@@ -1,0 +1,169 @@
+/* ====== ZAPHIRE TIENDITA – HEADER, TABS Y ACCENTOS ====== */
+
+/* Barra superior (header) con fondo blanco para lucir el logo PNG transparente */
+.navbar, .brandbar{
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 10px 16px;
+  background: #ffffff;                    /* fondo blanco */
+  border-bottom: 3px solid var(--z-primary); /* línea azul */
+}
+
+.brand{
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+header.navbar img brand-logo{
+  height: 48px !important;
+  width: auto !important; 
+  display: block !important; 
+  object-fit: contain !important;
+}
+.page img[alt*="Zaphire"],
+.page img[src*="logo"]{
+  max-width: 380px;
+  width: 90%;
+  height: auto;
+  display: block;
+  margin: 12px auto;
+}
+@media (min-width: 1024px){
+.page img[alt*="Zaphire"],
+.page img[src*="logo"]{max-width: 520px ;}
+}
+.brand-text{ display: flex; flex-direction: column; line-height: 1.1; }
+.brand-title{
+  font-size: 22px; font-weight: 800; letter-spacing: .2px; color: var(--z-primary);
+}
+.brand-role{ font-size: 12px; color: var(--z-ink-70); margin-top: 2px; }
+
+/* Tabs de navegación (usa <nav className="tabs"> … ) */
+.tabs{
+  display: flex; gap: 8px; flex-wrap: wrap; align-items: center;
+}
+.tabs > a, .tabs > button{
+  background: #fff;
+  color: var(--z-ink);
+  border: 2px solid var(--z-primary);
+  padding: .45rem .75rem;
+  border-radius: 10px;
+  font-weight: 700;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color .15s ease, color .15s ease, transform .12s ease;
+}
+.tabs > a:hover, .tabs > button:hover{
+  background: var(--z-primary);
+  color: #fff;
+  transform: translateY(-1px);
+}
+.tabs > .active{
+  background: var(--z-primary);
+  border-color: var(--z-primary);
+  color: #fff;
+}
+
+/* Chips / etiquetas (si las usas) */
+.badge, .tag{
+  background: #eef6ff;
+  color: #0f3b66;
+  border: 1px solid #dbeafe;
+  padding: .18rem .55rem;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: .8rem;
+}
+
+/* Cards/páginas (coinciden con index.css) */
+.page{ background: var(--z-bg); }
+.card{
+  background: var(--z-card);
+  border: 1px solid var(--z-line);
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 1px 0 rgba(0,0,0,.02);
+}
+
+/* Inputs en tablas (estilo “cajita”) */
+.box-input{
+  width: 120px;
+  padding: 6px 8px;
+  border: 1px solid var(--z-line);
+  border-radius: 8px;
+  background: #fff;
+  color: var(--z-ink);
+}
+.box-input:read-only{
+  background: #fafafa;
+}
+
+/* Helpers de layout (por si los necesitas aquí también) */
+.grid{ display: grid; gap: 12px; }
+.stack{ display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+
+/* Impresión: respetamos la regla global .no-print desde index.css */
+@media print{
+  /* Si necesitas afinar algo visual al imprimir, puedes añadir aquí */
+}
+/* === Header + logo === */
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 10px 20px;
+  background: #fff;                /* fondo blanco para tu PNG */
+  border-bottom: 3px solid #1976d2; /* línea azul */
+  background-color: white;
+}
+
+.brand { display: flex;
+         align-items: center; 
+         gap: 12px; 
+        }
+.brand-text { line-height: 1.1; }
+.brand-title { font-size: 20px; font-weight: 800; color: #111827; }
+.brand-role  { font-size: 12px; color: #4b5563; }
+
+/* Forzar tamaño del logo en header */
+
+
+/* Tabs */
+.tabs {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.tabs > a, .tabs > button {
+  background: #fff;
+  color: #1f2937;
+  border: 2px solid #1976d2;
+  padding: .45rem .75rem;
+  border-radius: 10px;
+  font-weight: 700;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color .15s ease, color .15s ease, transform .12s ease;
+}
+.tabs > a:hover, .tabs > button:hover {
+  background: #1976d2;
+  color: #fff;
+  transform: translateY(-1px);
+}
+.tabs > .active {
+  background: #1976d2;
+  border-color: #1976d2;
+  color: #fff;
+}
+
+

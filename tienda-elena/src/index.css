@@ -1,0 +1,786 @@
+/* ====== ZAPHIRE TIENDITA – BASE GLOBAL (LIMPIO) ====== */
+
+/* Paleta y variables */
+:root{
+  --z-primary: #1976d2;      /* Azul Zaphire */
+  --z-primary-700:#155fa9;   /* Hover */
+  --z-accent:  #42a5f5;      /* Azul claro */
+  --z-gold:    #d4af37;      /* Dorado sutil */
+  --z-danger:  #e53935;      /* Rojo (peligro) */
+
+  --z-ink:     #1f2937;      /* Texto principal */
+  --z-ink-70:  #4b5563;      /* Texto secundario */
+  --z-bg:      #f8fafc;      /* Fondo app */
+  --z-card:    #ffffff;      /* Fondo tarjetas */
+  --z-line:    #e5e7eb;      /* Bordes suaves */
+
+  --logo-h: 70px;            /* altura del logo en el header */
+
+  /* Altura REAL del navbar (logo + tabs). Ajusta si ves corte/espacio de más. */
+  --nav-h: 110px;
+}
+
+/* Reset suave y tipografía */
+* { box-sizing: border-box; }
+html, body, #root { height: 100%; }
+body{
+  margin:0;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  color: var(--z-ink);
+  background: var(--z-bg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  /* Reservar espacio para el navbar fijo (no se oculta el contenido) */
+  padding-top: var(--nav-h);
+}
+
+a{ color: var(--z-primary); text-decoration: none; }
+a:hover{ text-decoration: underline; }
+
+/* Utilidades comunes */
+.page{ min-height: 100%; padding: 12px; }
+.card{
+  background: var(--z-card);
+  border: 1px solid var(--z-line);
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 1px 0 rgba(0,0,0,.02);
+}
+.grid{ display: grid; gap: 12px; }
+.stack{ display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.input{
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid var(--z-line);
+  border-radius: 8px;
+  background: #fff;
+  color: var(--z-ink);
+}
+.input:focus{ outline: 2px solid rgba(25,118,210,.25); outline-offset: 0; }
+
+/* Botones */
+.btn{
+  background: #e2e8f0;
+  color: #111;
+  border: 1px solid var(--z-line);
+  border-radius: 10px;
+  padding: 8px 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.btn:hover{ background:#d9e2ec; }
+.btn.brand{
+  background: var(--z-primary);
+  border-color: var(--z-primary);
+  color: #fff;
+}
+.btn.brand:hover{ background: var(--z-primary-700); border-color: var(--z-primary-700); }
+.btn.danger{
+  background: var(--z-danger);
+  border-color: var(--z-danger);
+  color: #fff;
+}
+.btn.danger:hover{ background: #cc3633; }
+
+/* Tablas */
+table{ width:100%; border-collapse:collapse; }
+th, td{ padding: 8px 10px; border-bottom: 1px solid var(--z-line); }
+th{ text-align:left; background:#fff; color:var(--z-ink); }
+
+/* Encabezados con subrayado suave */
+h1, h2, h3{ color: var(--z-ink); margin: 0 0 8px; }
+h1::after, h2::after{
+  content:"";
+  display:block;
+  width:64px; height:2px; margin-top:6px;
+  background: linear-gradient(90deg, var(--z-primary), var(--z-accent));
+  opacity:.5;
+}
+
+/* ====== IMPRESIÓN ====== */
+@media print{
+  .no-print{ display: none !important; }
+  body{ background:#fff; }
+}
+
+/* ====== HEADER / NAVBAR ====== */
+header.navbar{
+  position: fixed;      /* fijo arriba */
+  top: 0; left: 0; right: 0;
+  z-index: 1000;
+  background: #fff;
+  border-bottom: 3px solid var(--z-primary);
+  box-shadow: 0 2px 10px rgba(0,0,0,.04);
+
+  display: flex;
+  flex-direction: column; /* logo/nombre arriba, tabs abajo */
+  align-items: center;
+  text-align: center;
+  gap: 8px;
+  padding: 10px 16px;
+}
+
+/* Layout centrado global (header + contenido) */
+.app-shell {
+  max-width: 1180px;
+  margin-inline: auto;
+  padding-inline: 16px;
+}
+header.navbar .app-shell{
+  display:flex;
+  flex-direction: column;
+  align-items:center;
+  gap:8px;
+}
+
+.brand{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+header.navbar .brand img.brand-logo{
+  height: var(--logo-h) !important;
+  width: auto !important;
+  object-fit: contain !important;
+}
+.brand-text{ line-height: 1.1; }
+.brand-title{ font-size: 20px; font-weight: 800; color: #111827; }
+.brand-role{ font-size: 12px; color: #4b5563; }
+
+/* Tabs centradas */
+.tabs{
+  display:flex;
+  justify-content:center;
+  flex-wrap:wrap;
+  gap:8px;
+}
+.tabs > a,
+.tabs > button,
+.navbar button{
+  background:#fff;
+  color:#1f2937;
+  border:2px solid var(--z-primary);
+  padding:.45rem .75rem;
+  border-radius:10px;
+  font-weight:700;
+  cursor:pointer;
+  text-decoration:none;
+  transition: background-color .15s ease, color .15s ease, transform .12s ease;
+}
+.tabs > a:hover, .tabs > button:hover{
+  background: var(--z-primary);
+  color:#fff;
+  transform: translateY(-1px);
+}
+.tabs > .active{
+  background: var(--z-primary);
+  border-color: var(--z-primary);
+  color:#fff;
+}
+.navbar button {
+  background-color: #ff4d4f; /* Rojo */
+  color: #fff;
+  border: 2px solid #ff4d4f;
+}
+.navbar button:hover {
+  background-color: #e63946;
+  border-color: #e63946;
+}
+
+/* Cartas/tablas centradas en el contenido */
+.page, .card, .content, .view {
+  max-width: 1180px;
+  margin-inline: auto;
+}
+
+/* ======= Ventas: layout con panel a la derecha ======= */
+
+/* Wrapper de columnas (izq: productos+carrito, der: resumen) */
+.sales-layout{
+  width: 100%;
+  max-width: none;
+  margin: 0;
+
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) 1fr; /* izquierda más ancha */
+  gap: 16px;
+  align-items: flex-start;
+  grid-template-columns: 1fr 480px;
+}
+
+/* Columna izquierda (productos + carrito) */
+.ventas-col-izquierda{
+  display: flex;
+  flex-direction: column;
+  gap: 16px; /* espacio entre productos y carrito */
+}
+.ventas-col-derecha{
+  align-self: start;
+  min-width: 0;
+}
+
+/* Panel de la derecha (Resumen) */
+.sales-summary{
+  position: sticky;
+  top: calc(var(--nav-h) + 12px); /* respeta la altura del header */
+  align-self: start;
+  min-width: 420px;
+  height: fit-content;
+
+  background: var(--z-card);
+  border: 1px solid var(--z-line);
+  border-radius: 12px;
+  padding: 12px;
+  box-shadow: 0 2px 18px rgba(0,0,0,.04);
+}
+.sales-summary .card{ overflow: auto; }
+.sales-summary table{ width:100%; border-collapse: collapse; }
+.sales-summary th, .sales-summary td{
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  padding: 6px 8px;
+  font-size: 0.92rem;
+}
+
+/* Encabezado interno “Ventas” (si lo usas bloque fijo bajo navbar) */
+.ventas-header{
+  position: sticky;
+  top: var(--nav-h);     /* se coloca justo debajo del header fijo */
+  background: white;
+  z-index: 20;
+  padding-bottom: 8px;
+}
+
+/* Responsive: apilar layout en móviles */
+@media (max-width: 980px){
+  .sales-layout{ grid-template-columns: 1fr; }
+  .sales-summary{ position: static; min-width: 0; }
+}
+
+/* ===== FIN LIMPIO ===== */
+
+/* ====== NAVBAR (global OK) ====== */
+:root{ --nav-h: 92px; }       /* ajusta si tu navbar mide distinto */
+.navbar{ position: sticky; top: 0; z-index: 1000; }
+
+/* ====== Solo Ventas ====== */
+.page-ventas{
+  padding-top: calc(var(--nav-h) + 8px);
+}
+
+/* layout 2 columnas SOLO en Ventas */
+.page-ventas .sales-layout{
+  display: grid !important;
+  grid-template-columns: 1fr 520px !important; /* izquierda | derecha */
+  gap: 16px;
+  align-items: start;
+}
+
+/* columna izquierda (productos + carrito) en vertical */
+.page-ventas .ventas-col-izquierda{
+  display: grid;
+  grid-template-rows: auto 1fr auto; /* header / lista / carrito */
+  gap: 12px;
+  min-width: 0;
+}
+
+/* scroll interno de paneles */
+.page-ventas .sales-summary{
+  position: sticky;
+  top: calc(var(--nav-h) + 8px);
+  max-height: calc(100vh - var(--nav-h) - 16px);
+  overflow: auto;
+}
+
+.page-ventas .ventas-col-izquierda .card:first-of-type{
+  /* Productos activos */
+  max-height: calc(100vh - var(--nav-h) - 220px);
+  overflow: auto;
+}
+
+.page-ventas .ventas-col-izquierda .card:last-of-type{
+  /* Carrito */
+  max-height: 320px;
+  overflow: auto;
+}
+
+/* Responsivo solo en Ventas */
+@media (max-width: 980px){
+  .page-ventas .sales-layout{
+    grid-template-columns: 1fr !important;
+  }
+  .page-ventas .sales-summary{
+    position: static;
+    max-height: none;
+    overflow: visible;
+  }
+}
+/* === Layout base: navbar fijo + paneles con scroll interno === */
+
+/* Altura del navbar (ajústala si tu header real mide distinto) */
+:root { --nav-h: 159px; }
+
+/* Navbar pegado arriba, por si no lo tenías ya */
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+
+/* Contenedor de cada página (ya usas .page) */
+.page {
+  /* Que el “lienzo” bajo el navbar al menos cubra la altura visible */
+  min-height: calc(100vh - var(--nav-h));
+  /* Separación del navbar */
+  padding-top: 8px;
+  /* Mantén tu ancho y centrado existentes si ya los tienes */
+}
+
+/* Cada panel/card debe poder tener un “cuerpo” que scrollea */
+.card {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Crea un área de scroll interno para el contenido grande del panel */
+.card-body {
+  overflow: auto;
+  /* Altura máxima visible del contenido del panel
+     (restamos la altura del navbar y un margen de seguridad).
+     Sube/baja  a tu gusto. */
+  max-height: calc(100vh - var(--nav-h) - 160px);
+}
+
+/* --- Ventas (layout 2 columnas) --- */
+.sales-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 520px; /* izquierda | derecha */
+  gap: 16px;
+  align-items: start;
+}
+
+/* Columna derecha (Resumen) como panel normal con scroll interno */
+.sales-summary .card-body {
+  /* Si el resumen es más bajito, puedes reducir esta altura */
+  max-height: calc(100vh - var(--nav-h) - 160px);
+  overflow: auto;
+}
+
+/* Evita que tablas muy anchas rompan el layout */
+.card-body table {
+  width: 100%;
+}
+.card-body {
+  overflow-x: auto;
+}
+:root{
+  --nav-h: 159px; /* altura real de tu navbar (de DevTools) */
+  --gap: 16px;
+}
+
+/* Contenido comienza debajo del navbar */
+.page{
+  padding-top: var(--nav-h);
+}
+
+/* Ventas: layout 2 columnas */
+.sales-layout{
+  display: grid;
+  grid-template-columns: minmax(0,1fr) 420px; /* izquierda flexible | derecha fija */
+  gap: var(--gap);
+  align-items: start;
+}
+
+/* La izquierda apila sus paneles */
+.ventas-col-izquierda{
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  gap: var(--gap);
+  min-width: 0;
+}
+
+/* Resumen “sticky” bajo el navbar */
+.sales-summary{
+  position: sticky;
+  top: calc(var(--nav-h) + var(--gap));
+  height: fit-content;
+}
+
+/* Scroll interno reutilizable para tablas/listas grandes */
+.table-scroll{
+  max-height: calc(100vh - var(--nav-h) - 210px); /* ajusta si quieres más alto */
+  overflow: auto;
+}
+
+/* El contenido interno del resumen también scrollea si crece */
+.card-body{
+  max-height: calc(100vh - var(--nav-h) - 160px);
+  overflow: auto;
+}
+
+/* Responsive: apila en móviles */
+@media (max-width: 980px){
+  .sales-layout{ grid-template-columns: 1fr; }
+  .sales-summary{ position: static; }
+}
+/* ===== Ventas: layout fijo + scroll interno ===== */
+
+/* Altura real del navbar (logo + tabs). Ajusta si cambia */
+:root { --nav-h: 158px; }
+
+/* Grid: izquierda (productos+carrito) / derecha (resumen) */
+.sales-layout{
+  display:grid;
+  grid-template-columns: 1fr 420px; /* ancho del panel derecho */
+  gap:24px;
+  align-items:start;
+  margin-top:8px;
+}
+
+/* Columna izquierda ya existe como <section class="ventas-col-izquierda"> */
+.ventas-col-izquierda{ display:flex; flex-direction:column; gap:12px; }
+
+/* Tabla de productos: hace scroll dentro, no la página */
+.table-scroll{
+  margin-top:8px;
+  overflow:auto;           /* horizontal + vertical */
+  max-height: 360px;
+
+  /* el “160px” cubre el card de título, filtros y márgenes */
+}
+
+/* Panel derecho (Resumen): fijo bajo el navbar, scroll interno */
+.sales-summary{ position: sticky; top: var(--nav-h); }
+.sales-summary .card{
+  max-height: calc(100vh - var(--nav-h) - 24px);
+  overflow:auto;
+}
+
+/* Carrito: mismo look de card y límite de alto con scroll si crece */
+.ventas-carrito{
+  max-height: 42vh;
+  overflow:auto;
+}
+
+/* Pequeñas mejoras de tablas dentro de cards */
+.card table{ width:100%; border-collapse:collapse; }
+.card thead th{ position:sticky; top:0; background:#fff; z-index:1; }
+@media (max-width: 1100px){
+  .sales-layout{ grid-template-columns: 1fr 36vw; }
+  }
+
+  /* ===== Ventas → Productos activos (con tus clases) ===== */
+
+.card.card-productos{
+  /* Que el card ocupe un alto útil de ventana y permita scroll interno */
+  height: calc(100vh - var(--nav-h) - 220px);
+  min-height: 420px;           /* para pantallas bajas, ajusta si quieres */
+  display: flex;
+  flex-direction: column;
+}
+
+/* Área scroll del listado */
+.card.card-productos .table-scroll{
+  flex: 1;
+  overflow: auto;              /* vertical y horizontal si hace falta */
+  margin-top: 8px;
+}
+
+/* Encabezado pegado dentro del scroll */
+.card.card-productos thead th{
+  position: sticky;
+  top: 0;
+  background: var(--z-card, #fff);
+  z-index: 1;
+}
+
+/* Que celdas no rompan filas por espacios largos */
+.card.card-productos table th,
+.card.card-productos table td{
+  white-space: nowrap;
+}
+.card-resumen h3{
+  margin: 0 0 8px;
+  font-size: 16px;
+  font-weight: 700;
+}
+/* ====== VENTAS: dos columnas ====== */
+.sales-layout{
+  display: grid;
+  /* Izquierda flexible / derecha fija */
+  grid-template-columns: minmax(0, 1fr) 440px; /* cambia 440px a 400–520px si lo necesitas */
+  gap: 16px;
+  align-items: start;
+  margin-top: 8px;
+}
+
+/* Columna izquierda (cliente + productos + carrito) */
+.ventas-col-izquierda{
+  min-width: 0;         /* evita desbordes de tablas */
+}
+
+/* Columna derecha (resumen) — ya agregaste .ventas-col-derecha */
+.ventas-col-derecha{
+  min-width: 0;
+}
+
+/* Tarjeta del resumen: título + scroll interno (si no lo tenías) */
+.card-resumen h3{ margin:0 0 8px; font-size:16px; font-weight:700; }
+.table-scroll{ max-height: 360px; overflow:auto; }
+/* ====== Ventas: Carrito con scroll propio ====== */
+
+/* La tarjeta del carrito en columna */
+.card-carrito{
+  display: flex;
+  flex-direction: column;
+}
+
+/* Área scrolleable del carrito (lista de ítems) */
+.card-carrito .table-scroll{
+  overflow: auto;
+  /* Ajuste de altura: elige una opción */
+
+/* Opción simple (estable y segura): */
+  max-height: 360px;
+
+/* Opción adaptable (si ya usas --nav-h): 
+  max-height: clamp(220px, calc(100vh - var(--nav-h) - 340px), 480px);
+*/
+  padding-bottom: 4px; /* evita que el último ítem quede pegado */
+}
+
+/* La tabla ocupa todo el ancho dentro del scroll */
+.card-carrito .table-scroll table{
+  width: 100%;
+  border-collapse: collapse;
+}
+
+/* Botones siempre visibles al final de la tarjeta */
+.cart-actions{
+  position: sticky;   /* se queda pegado al fondo de la tarjeta */
+  bottom: 0;
+  background: var(--z-card, #fff);
+  padding-top: 8px;
+  margin-top: 8px;    /* separadito del scroll */
+  border-top: 1px solid var(--z-line, #e5e7eb);
+}
+/* === Ajustes globales suaves (más ancho útil) === */
+.page, .content, ._view {
+  max-width: 1360px;        /* antes 1180px (o similar) */
+}
+
+/* === Ventas: grid 2 columnas más compacto === */
+.sales-layout{
+  display: grid;
+  grid-template-columns: 1fr 460px; /* izquierda flexible + derecha fija */
+  gap: 16px;                        /* antes era mayor visualmente */
+  align-items: start;
+  margin-top: 8px;                  /* reducimos aire arriba */
+}
+
+/* Columna izquierda (productos + carrito) en columna y con poco gap */
+.ventas-col-izquierda{
+  display: flex;
+  flex-direction: column;
+  gap: 12px;                        /* menos separación vertical */
+}
+
+/* Panel de resumen a la derecha */
+.ventas-col-derecha{                /* si usas .sales-summary, aplica igual */
+  align-self: start;
+  min-width: 0;                     /* evita que “empuje” al grid */
+}
+
+/* Tarjetas más apretadas (sólo en Ventas) */
+.page .card{
+  padding: 10px 12px;               /* antes se veía con más padding */
+  margin: 0;                        /* quita márgenes extra */
+}
+
+/* Tablas con scroll: altura calculada para no dejar huecos */
+.table-scroll{
+  max-height: calc(100vh - var(--nav-h, 132px) - 240px);
+  overflow: auto;
+}
+
+/* Resumen (derecha) con la misma lógica de scroll */
+.card-resumen .table-scroll{
+  max-height: calc(100vh - var(--nav-h, 132px) - 240px);
+  overflow: auto;
+}
+/* ===== Compactar el espacio debajo del navbar (global) ===== */
+
+/* 1) La primera .page justo después del navbar queda cerquita */
+.navbar + .page {
+  margin-top: 8px;          /* ajusta 8→6→4 si quieres aún menos */
+}
+
+/* 2) Evitar que el <h2> empuje el card hacia abajo por su margen propio */
+.page > .card h2:first-child {
+  margin-top: 0;
+}
+
+/* 3) Si tu .card tiene márgenes por defecto, el primero va corto */
+.navbar + .page > .card:first-of-type {
+  margin-top: 8px;          /* mismo valor que arriba para consistencia */
+}
+/* 1) Navbar fijo con poco espacio inferior */
+.navbar{
+  position: sticky;   /* como ya lo tienes */
+  top: 0;
+  z-index: 1000;
+  margin-bottom: 6px !important;  /* ← controla el “hueco”. Prueba 4–8px */
+}
+
+/* 2) Primer contenedor de cada página (tu <div class="page">) */
+.page{
+  margin-top: 0 !important;       /* sin margen extra arriba */
+  padding-top: 8px !important;     /* un respiro mínimo bajo el navbar */
+}
+
+/* 3) Asegura que justo el hermano inmediato no meta margen extra */
+.navbar + .page{
+  margin-top: 0 !important;
+}
+
+/* 4) (por si acaso) elimina cualquier margen del body que sume espacio */
+html, body{ margin: 0 !important; }
+/* Encabezado de reportes fijo y con margen inferior corto */
+.card.report-header { margin-bottom: 12px; }
+
+/* Tabs con misma posición/espaciado en todas las vistas */
+.tabs { display: flex; gap: 8px; flex-wrap: wrap; margin: 6px 0 8px; }
+
+/* Títulos con altura consistente (evita “saltos”) */
+.card.report-header h1 { margin: 0 0 8px; }
+.report-body h2 { margin: 0 0 8px; }
+
+/* Los cards del cuerpo sin margen superior extra para que no empujen los tabs */
+.card.report-body { margin-top: 0; }
+
+/* Input pequeño para el combo de quincena */
+.input.input-sm { max-width: 260px; height: 36px; padding: 6px 10px; }
+/* Header de Reportes */
+.reports-head { display: flex; flex-direction: column; gap: 10px; }
+
+/* Fila de tabs: una sola línea, pegado a la izquierda */
+.reports-tabs { display: flex; gap: 8px; flex-wrap: nowrap; align-items: center; }
+
+/* Fila de filtros: label + select + botón */
+.reports-filters { display: flex; gap: 12px; align-items: center; }
+
+/* Evita que el select crezca a todo el ancho aunque .input tenga width:100% */
+.w-260 { width: 260px !important; max-width: 100%; flex: 0 0 auto; }
+/* Fila de tabs: una sola línea, estable y pegada a la izquierda */
+.reports-tabs {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: nowrap;
+  min-height: 40px;          /* altura estable para que no “salte” */
+}
+
+/* Si Tabs usa un wrapper .stack (o cualquier div interno), fuerzo fila */
+.reports-tabs .stack,
+.reports-tabs > div {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
+  align-items: center !important;
+  gap: 8px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* Evita que los botones crezcan o empujen la línea */
+.reports-tabs .btn {
+  flex: 0 0 auto;
+  white-space: nowrap;
+  line-height: 1; /* altura consistente */
+}
+/* Solo afecta inputs dentro de .auth-form */
+.auth-form input {
+  background: #fff;
+  color: inherit;
+}
+
+.auth-form input:-webkit-autofill,
+.auth-form input:-webkit-autofill:hover,
+.auth-form input:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0 1000px #fff inset !important;
+  -webkit-text-fill-color: inherit !important;
+  transition: background-color 5000s ease-in-out 0s;
+}
+/* Fondo */
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: linear-gradient(135deg, #6c63ff, #3b3b98);
+}
+
+/* Tarjeta */
+.login-card {
+  background: #fff;
+  padding: 32px;
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+  text-align: center;
+  width: 100%;
+  max-width: 400px;
+}
+
+/* Logo */
+.login-logo {
+  width: 100px;
+  margin-bottom: 16px;
+}
+
+/* Inputs */
+.auth-form input {
+  width: 100%;
+  padding: 12px;
+  margin: 8px 0;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 16px;
+}
+
+/* Botón principal */
+.auth-form button {
+  width: 100%;
+  padding: 12px;
+  margin-top: 12px;
+  background: #6c63ff;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.auth-form button:hover {
+  background: #3b3b98;
+}
+
+/* Botones de cambio login/registro */
+.login-card p button {
+  background: none;
+  border: none;
+  color: #6c63ff;
+  cursor: pointer;
+  font-size: 14px;
+  margin-top: 8px;
+  text-decoration: underline;
+}
+
+.error {
+  color: crimson;
+  margin-top: 12px;
+}
