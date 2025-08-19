@@ -643,7 +643,7 @@ header.navbar .brand img.brand-logo{
 
 /* 3) Asegura que justo el hermano inmediato no meta margen extra */
 .navbar + .page{
-  margin-top: 0 !important;
+  margin-top: 16px !important;
 }
 
 /* 4) (por si acaso) elimina cualquier margen del body que sume espacio */
@@ -783,4 +783,21 @@ html, body{ margin: 0 !important; }
 .error {
   color: crimson;
   margin-top: 12px;
+}
+/* Escritorio: 2 columnas */
+@media (min-width: 769px) {
+  .ventas-col-derecha {
+    position: sticky;
+    top: 72px; /* según tu navbar */
+  }
+}
+
+/* Móvil: apilar y sin sticky */
+@media (max-width: 768px) {
+  .ventas-grid { flex-direction: column; }
+  .ventas-col-derecha {
+    position: static !important;
+    order: 2; /* va debajo */
+    margin-top: 12px; /* un respiro */
+  }
 }

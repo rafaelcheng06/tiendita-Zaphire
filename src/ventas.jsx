@@ -22,6 +22,9 @@ export default function Ventas({ role }) {
   // Carrito (venta en construcción)
   const [cart, setCart] = useState([]); // [{id,name,price,qty,stock}]
 
+  //prvenir doble guardado
+  const [saving, setSaving] = useState(false);
+
   // Resumen de quincena abierta (panel derecho)
   const [resumenQuincena, setResumenQuincena] = useState({
     byProduct: [],
@@ -244,16 +247,19 @@ export default function Ventas({ role }) {
   // Guardar venta
   // =========================================================
   async function saveSale() {
-    setMsg("");
-    if (!customerId) {
+    if (saving) return ;   
+   try {  
+      if (!customerId) {
       setMsg("Selecciona un cliente.");
+      alert("A quien le estas vendiendo? al fantasma?");
       return;
     }
     if ((cart || []).length === 0) {
       setMsg("Agrega al menos un producto.");
       return;
     }
-
+    setSaving(true);
+    setMsg("");
     // Validación stock en vivo
     for (const item of cart) {
       const p = products.find((x) => x.id === item.id);
@@ -308,6 +314,12 @@ export default function Ventas({ role }) {
 
     alert(`Venta #${sale.id} creada con éxito.`);
   }
+  
+  catch (err) {
+    setMsg(err.message || String(err));
+  }finally {
+    setSaving(false);
+  }}
 
   // =========================================================
   // Render
@@ -489,8 +501,8 @@ export default function Ventas({ role }) {
 
           {/* Botones del carrito */}
           <div className="stack cart-actions" style={{ marginTop: 12 }}>
-            <button className="btn brand" onClick={saveSale} disabled={!customerId || cart.length === 0}>
-              Guardar venta
+            <button className="btn brand" onClick={saveSale} disabled={!customerId || cart.length === 0 || saving}>
+              {saving ? "Guardando..." : "Guardar venta"}
             </button>
             <button className="btn" onClick={()=>setCart([])} disabled={cart.length === 0}>
               Vaciar carrito

@@ -36,8 +36,20 @@ function LoginView() {
       navigate("/"); // al inicio
     } else {
       // Registro
-      const { data, error } = await supabase.auth.signUp({ email, password });
-      if (error) throw error;
+      const { data, error } = await supabase.auth.signUp({ 
+        email,
+        password,
+        options: {
+          emailRedirectTo: `${window.location.origin}/`,
+          data: {
+            full_name: fullName.trim(),
+          },
+        },
+      });
+      if (error){
+        setMsg(error.message);
+        return;
+      } 
 
       // ⚠️ Validar que haya nombre
       if (!fullName.trim()) {
